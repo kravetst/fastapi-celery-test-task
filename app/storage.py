@@ -1,4 +1,5 @@
 tasks = []
+next_id = 1
 
 
 def get_tasks():
@@ -7,8 +8,6 @@ def get_tasks():
     """
     return tasks
 
-
-next_id = 1
 
 def add_task(task_data):
     """
@@ -49,3 +48,9 @@ def delete_task(task_id):
         if task["id"] == task_id:
             return tasks.pop(i)
     return None
+
+
+def clear_tasks():
+    global next_id
+    tasks.clear()
+    next_id = 1

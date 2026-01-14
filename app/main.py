@@ -12,12 +12,12 @@ def read_tasks():
 
 @app.post("/tasks")
 def create_task(task: Task):
-    return add_task(task.dict())
+    return add_task(task.model_dump())
 
 
 @app.put("/tasks/{task_id}")
 def edit_task(task_id: int, task: Task):
-    updated = update_task(task_id, task.dict())
+    updated = update_task(task_id, task.model_dump())
     if updated is None:
         raise HTTPException(status_code=404, detail="Task not found")
     return updated
@@ -28,4 +28,4 @@ def remove_task(task_id: int):
     deleted = delete_task(task_id)
     if deleted is None:
         raise HTTPException(status_code=404, detail="Task not found")
-    return {"detail": "Task deleted"}
+    return deleted
