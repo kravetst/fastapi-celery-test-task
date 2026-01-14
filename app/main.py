@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from app.storage import get_tasks, add_task, update_task, delete_task
 from app.schemas import Task
+from celery_worker import fetch_users_to_csv
 
 app = FastAPI()
 
@@ -29,3 +30,9 @@ def remove_task(task_id: int):
     if deleted is None:
         raise HTTPException(status_code=404, detail="Task not found")
     return deleted
+
+
+@app.post("/export-users")
+def export_users():
+    fetch_users_to_csv.delay()
+    return {"status": "task started"}
