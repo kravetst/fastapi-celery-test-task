@@ -1,6 +1,7 @@
 services:
   web:
     build: .
+    container_name: fastapi_app
     ports:
       - "8000:8000"
     depends_on:
@@ -10,7 +11,8 @@ services:
 
   worker:
     build: .
-    command: celery -A celery_worker.celery worker --loglevel=info
+    container_name: celery_worker
+    command: celery -A app.celery_worker.celery worker --loglevel=info
     depends_on:
       - redis
     volumes:
@@ -18,5 +20,6 @@ services:
 
   redis:
     image: redis:7
+    container_name: redis
     ports:
       - "6379:6379"
