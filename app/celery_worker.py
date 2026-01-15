@@ -18,9 +18,9 @@ def fetch_users_to_csv():
 
     users = response.json()
 
-    os.makedirs("data", exist_ok=True)
+    os.makedirs("../data", exist_ok=True)
 
-    file_path = "data/users.csv"
+    file_path = "../data/users.csv"
 
     with open(file_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)

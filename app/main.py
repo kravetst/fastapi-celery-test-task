@@ -1,9 +1,15 @@
 from fastapi import FastAPI, HTTPException
+import joblib
+
 from app.storage import get_tasks, add_task, update_task, delete_task
-from app.schemas import Task
-from celery_worker import fetch_users_to_csv
+from app.schemas import Task, TaskDescription
+from app.celery_worker import fetch_users_to_csv
 
 app = FastAPI()
+
+
+model = joblib.load("data/task_model.joblib")
+vectorizer = joblib.load("data/vectorizer.joblib")
 
 
 @app.get("/tasks")
@@ -36,3 +42,10 @@ def remove_task(task_id: int):
 def export_users():
     fetch_users_to_csv.delay()
     return {"status": "task started"}
+
+
+@app.post("/predict")
+def predict_priority(task: TaskDescription):
+    text_vec = vectorizer.transform([task.task_description])
+    prediction = model.predict(text_vec)[0]
+    return {"priority": prediction}
