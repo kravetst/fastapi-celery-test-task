@@ -27,6 +27,12 @@ fastapi-celery-test-task/
     ├── schemas.py        # Pydantic schemas
     └──storage.py        # "database" for tasks
 ```
+### Cloning the repository
+```bash
+git clone https://github.com/kravetst/fastapi-celery-test-task.git
+cd fastapi-celery-test-task
+```
+
 ### Installation
 Create a virtual environment:
 ```bash
